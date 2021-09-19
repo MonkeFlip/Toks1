@@ -16,13 +16,13 @@
         <TextBox x:Name="serial2_field" Grid.Row="1" Text="" FontSize="30" TextWrapping="Wrap" Width="800"/>
         <TextBox x:Name="ControlAndDebug" Grid.Row="1" Text="" FontSize="30" TextWrapping="Wrap" Margin="0,144,288,0" Grid.RowSpan="2"/>
         <Button x:Name="Clean" Content="Clean" HorizontalAlignment="Left" Margin="517,5,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="145" Click="Clean_Click"/>
-        <Button x:Name="Serial1Enter" Content="Enter into Serial port 1" HorizontalAlignment="Left" Margin="517,36,0,0" Grid.Row="2" VerticalAlignment="Top" Width="145" Height="26" Click="Serial1Enter_Click"/>
-        <Button x:Name="Serial2Enter" Content="Enter into Serial port 2" HorizontalAlignment="Left" Margin="517,67,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="145" Click="Serial2Enter_Click"/>
-        <Button x:Name="baud9600" Content="9600" HorizontalAlignment="Left" Margin="689,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="baud9600_Click"/>
-        <Button x:Name="baud19200" Content="19200" HorizontalAlignment="Left" Margin="689,30,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="baud19200_Click"/>
-        <Button x:Name="baud38400" Content="38400" HorizontalAlignment="Left" Margin="689,55,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="baud38400_Click"/>
-        <Button x:Name="baud57600" Content="57600" HorizontalAlignment="Left" Margin="689,80,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="baud57600_Click"/>
-        <Button x:Name="baud115200" Content="115200" HorizontalAlignment="Left" Margin="689,105,0,0" Grid.Row="2" VerticalAlignment="Top" Click="baud115200_Click"/>
+        <Button x:Name="Serial1Enter" Content="Enter into Serial port 1" HorizontalAlignment="Left" Margin="517,36,0,0" Grid.Row="2" VerticalAlignment="Top" Width="145" Height="26" Click="SerialEnter_Click"/>
+        <Button x:Name="Serial2Enter" Content="Enter into Serial port 2" HorizontalAlignment="Left" Margin="517,67,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="145" Click="SerialEnter_Click"/>
+        <Button x:Name="baud9600" Content="9600" HorizontalAlignment="Left" Margin="689,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="ChangeBaud"/>
+        <Button x:Name="baud19200" Content="19200" HorizontalAlignment="Left" Margin="689,30,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="ChangeBaud"/>
+        <Button x:Name="baud38400" Content="38400" HorizontalAlignment="Left" Margin="689,55,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="ChangeBaud"/>
+        <Button x:Name="baud57600" Content="57600" HorizontalAlignment="Left" Margin="689,80,0,0" Grid.Row="2" VerticalAlignment="Top" Width="43" Click="ChangeBaud"/>
+        <Button x:Name="baud115200" Content="115200" HorizontalAlignment="Left" Margin="689,105,0,0" Grid.Row="2" VerticalAlignment="Top" Click="ChangeBaud"/>
 
     </Grid>
 </Window>

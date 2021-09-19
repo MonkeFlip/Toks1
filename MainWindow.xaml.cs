@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO.Ports;
-using System.Threading;
 
 namespace Toks1
 {
@@ -22,91 +10,71 @@ namespace Toks1
     /// </summary>
     public partial class MainWindow : Window
     {
-        TextBox read_mem, write_mem;
+        TextBox read_mem;
         SerialPort serialPort;
         public MainWindow()
         {
             InitializeComponent();
             try
             {
+                ControlAndDebug.IsReadOnly = true;
                 string[] ports = SerialPort.GetPortNames();
                 if (ports.Length < 2)
                 {
-                    throw new InvalidOperationException("There is no paired serial ports.");
+                    throw new InvalidOperationException("There are no paired serial ports.");
                 }
 
                 try
                 {
-                    serialPort = new SerialPort(ports[0], 9600);
+                    serialPort = new SerialPort(ports[0], 115200);
                     serialPort.Open();
                     read_mem = serial1_field;
-                    write_mem = serial2_field;
                     Serial2Enter.IsEnabled = false;
-                    serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-                    serial2_field.IsEnabled = false;
+                    serial2_field.IsReadOnly = true;                
                 }
                 catch (Exception)
                 {
                     try
                     {
-                        serialPort = new SerialPort(ports[1], 9600);
+                        serialPort.PortName = ports[1];
                         serialPort.Open();
                         read_mem = serial2_field;
-                        write_mem = serial1_field;
                         Serial1Enter.IsEnabled = false;
-                        serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-                        serial1_field.IsEnabled = false;
+                        serial1_field.IsReadOnly = true;
                     }
                     catch (Exception e) {
-                        if ()
                         ControlAndDebugMessage(e.Message);
                     }
                 }
             }
             catch (Exception e) {
+                serial1_field.IsReadOnly = true;
+                serial2_field.IsReadOnly = true;
+                Serial1Enter.IsEnabled = false;
+                Serial2Enter.IsEnabled = false;
+                baud115200.IsEnabled = baud19200.IsEnabled = baud57600.IsEnabled = baud38400.IsEnabled = baud9600.IsEnabled = false;
                 ControlAndDebugMessage(e.Message);
-            }            
-        }
+                return;
+            }
 
+            serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+        }
 
         private void Clean_Click(object sender, RoutedEventArgs e)
         {
-            serial1_field.Text = serial2_field.Text = ControlAndDebug.Text = "";
+            serial1_field.Text = serial2_field.Text = " ";
         }
 
-        private void Serial1Enter_Click(object sender, RoutedEventArgs e)
+        private void SerialEnter_Click(object sender, RoutedEventArgs e)
         {
             serialPort.Write(read_mem.Text);
         }
 
-        private void Serial2Enter_Click(object sender, RoutedEventArgs e)
+        private void ChangeBaud(object sender, RoutedEventArgs e)
         {
-            serialPort.Write(read_mem.Text);
-        }
-
-        private void baud9600_Click(object sender, RoutedEventArgs e)
-        {
-            serialPort.BaudRate = 9600;
-        }
-
-        private void baud19200_Click(object sender, RoutedEventArgs e)
-        {
-            serialPort.BaudRate = 19200;
-        }
-
-        private void baud38400_Click(object sender, RoutedEventArgs e)
-        {
-            serialPort.BaudRate = 38400;
-        }
-
-        private void baud57600_Click(object sender, RoutedEventArgs e)
-        {
-            serialPort.BaudRate = 57600;
-        }
-
-        private void baud115200_Click(object sender, RoutedEventArgs e)
-        {
-            serialPort.BaudRate = 115200;
+            Button mem = (Button)sender;
+            serialPort.BaudRate = int.Parse(mem.Content.ToString());
+            ControlAndDebugMessage($"Baud rate set to {mem.Content.ToString()}");
         }
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
@@ -120,7 +88,8 @@ namespace Toks1
 
         private void ControlAndDebugMessage(string message)
         {
-            ControlAndDebug.Text = message;
+            ControlAndDebug.Text += message + "\n";
+            ControlAndDebug.ScrollToEnd();
         }
     }
 }
