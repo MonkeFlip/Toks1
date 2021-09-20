@@ -26,7 +26,7 @@ namespace Toks1
 
                 try
                 {
-                    serialPort = new SerialPort(ports[0], 115200);
+                    serialPort = new SerialPort(ports[0], 115200, Parity.None, 8, StopBits.One);
                     serialPort.Open();
                     read_mem = serial1_field;
                     Serial2Enter.IsEnabled = false;
