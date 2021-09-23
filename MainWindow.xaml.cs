@@ -52,7 +52,7 @@ namespace Toks1
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
         }
 
-        private void Clean_Click(object sender, RoutedEventArgs e)
+        private void Clear_Click(object sender, RoutedEventArgs e)
         {
             serial1_field.Text = serial2_field.Text = "";
         }
