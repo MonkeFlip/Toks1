@@ -27,6 +27,7 @@ namespace Toks1
                 try
                 {
                     serialPort = new SerialPort(ports[0], 115200, Parity.None, 8, StopBits.One);
+                    comboBox.Text = "115200";
                     serialPort.Open();
                 }
                 catch (Exception)
@@ -44,11 +45,10 @@ namespace Toks1
             catch (Exception e) {
                 serial1_field.IsReadOnly = serial2_field.IsReadOnly = true;
                 SerialEnter.IsEnabled = false;
-                baud115200.IsEnabled = baud19200.IsEnabled = baud57600.IsEnabled = baud38400.IsEnabled = baud9600.IsEnabled = false;
+                comboBox.IsEnabled = false;
                 ControlAndDebugMessage(e.Message);
                 return;
             }
-
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
         }
 
@@ -59,14 +59,22 @@ namespace Toks1
 
         private void SerialEnter_Click(object sender, RoutedEventArgs e)
         {
-            byte[] mem = Encoding.UTF8.GetBytes(serial1_field.Text);
-            serialPort.Write(mem, 0, mem.Length);
+            if (serialPort.IsOpen)
+            {
+                byte[] mem = Encoding.UTF8.GetBytes(serial1_field.Text);
+                serialPort.Write(mem, 0, mem.Length);
+            }
+            else
+            {
+                ControlAndDebugMessage("Access to the serial port is denied.");
+            }
         }
 
         private void ChangeBaud(object sender, RoutedEventArgs e)
         {
             Button mem = (Button)sender;
             serialPort.BaudRate = int.Parse(mem.Content.ToString());
+            comboBox.Text = mem.Content.ToString();
             ControlAndDebugMessage($"Baud rate set to {mem.Content.ToString()}");
         }
 
@@ -92,6 +100,11 @@ namespace Toks1
         {
             ControlAndDebug.Text += message + "\n";
             ControlAndDebug.ScrollToEnd();
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ControlAndDebugMessage("Changed");
         }
     }
 }
