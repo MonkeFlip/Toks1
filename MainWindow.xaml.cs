@@ -38,6 +38,9 @@ namespace Toks1
                         serialPort.Open();
                     }
                     catch (Exception e) {
+                        serial1_field.IsReadOnly = serial2_field.IsReadOnly = true;
+                        SerialEnter.IsEnabled = false;
+                        comboBox.IsEnabled = false;
                         ControlAndDebugMessage(e.Message);
                     }
                 }
